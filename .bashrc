@@ -3,18 +3,12 @@
 # for examples
 
 # If not running interactively, don't do anything
-case $- in
-    *i*) ;;
-      *) return;;
-esac
+[[ $- != *i* ]] && return
 
 # don't put duplicate lines or lines starting with space in the history.
 # See bash(1) for more options
-
 # append to the history file, don't overwrite it
-
 # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
-
 export HISTCONTROL=ignoredups:erasedups  # no duplicate entries
 export HISTSIZE=100000                   # big big history
 export HISTFILESIZE=100000               # big big history
@@ -65,6 +59,8 @@ fi
 if [ "$color_prompt" = yes ]; then
     #double line git
     PS1='${debian_chroot:+($debian_chroot)}\[\033[01;38;5;141m\]\n\@ \[\033[01;38;05;99m\]\u\[\033[00m\]:\[\033[01;38;05;213m\]\w\[\033[00m\] `[[ $(git status 2> /dev/null) =~ Changes\ to\ be\ committed: ]] && echo "\[\e[38;05;216m\]" || echo "\[\e[38;05;197m\]"``[[ ! $(git status 2> /dev/null) =~ nothing\ to\ commit,\ working\ .+\ clean ]] || echo "\[\e[38;05;47m\]"`$(__git_ps1 "%s\[\e[00m\]")\[$(tput sgr0)\]\$\[$(tput bold)\]\n--> \[\e[00m\]'
+    #nerdfont simple powerline
+    #PS1='\[\033[7m\]\[\033[01;38;05;99m\] \u \[\033[0m\]\[\033[01;38;05;99;48;05;141m\]\[\033[0m\]\[\033[01;38;05;141m\]\[\033[7m\] \w \[\033[0m\]\[\033[01;38;05;141m\] \[\033[0m\]'
 else
     PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
 fi
@@ -130,6 +126,12 @@ alias scheme='rlwrap mit-scheme'
 alias csi='rlwrap csi'
 alias guile='rlwrap guile'
 
+alias tenes='trans -s en -t es'
+alias tesen='trans -s es -t en'
+alias tende='trans -s en -t de'
+alias tdeen='trans -s de -t en'
+alias tesde='trans -s es -t de'
+alias tdees='trans -s de -t es'
 
 if [ -f "/etc/debian_version" ]; then
   alias bat='batcat'
@@ -151,3 +153,5 @@ fi
 export EDITOR='nvim'
 export SUDO_EDITOR='nvim'
 export VISUAL='nvim'
+
+#eval "$(zoxide init bash)"
