@@ -116,3 +116,6 @@ source $VIMRUNTIME/delmenu.vim
 source $VIMRUNTIME/menu.vim
 
 set linebreak
+
+set ignorecase
+set smartcase
