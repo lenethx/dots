@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+main() {
+    w3m "https://google.com/search?q=$*"
+}
+
+main $*

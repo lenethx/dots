@@ -1,0 +1,29 @@
+#!/usr/bin/env python3
+
+import sys, tempfile, os
+from subprocess import run
+import xml.etree.ElementTree as ET
+
+from config import *
+def repall(instrm, indict):
+    for key, value in indict.items():
+        instrm=instrm.replace(key, value, 1)
+    return instrm
+
+def main():
+
+    openfiles=[]
+    tree = ET.parse(winuserpath+'/AppData/Roaming/Notepad++/session.xml')
+    root = tree.getroot()
+    for view in root[0]:
+        for file in view:
+            openfiles.append(file.attrib['filename'] if file.attrib['backupFilePath'] == "" else file.attrib['backupFilePath'])
+
+    EDITOR = os.environ.get('EDITOR','vim') #that easy!
+    if EDITOR == 'vim' or EDITOR == 'nvim':
+        openfiles=["+only", "-o"]+openfiles
+    run([EDITOR, *map(lambda x: repall(x, mountpoints).replace('\\', '/'), openfiles)])
+
+
+if __name__=="__main__":
+    main()
