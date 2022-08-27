@@ -58,10 +58,12 @@ call plug#begin()
 	Plug 'ryanoasis/vim-devicons'
 	Plug 'akinsho/bufferline.nvim'
 
+	Plug 'powerman/vim-plugin-AnsiEsc'
+
 	"Plug 'jiangmiao/auto-pairs'
 	Plug 'ap/vim-css-color'
 	Plug 'preservim/nerdtree'
-	Plug 'glepnir/dashboard-nvim'
+"	Plug 'glepnir/dashboard-nvim'
 	Plug 'nvim-lua/plenary.nvim'
 	Plug 'lewis6991/gitsigns.nvim'
 	Plug 'nvim-telescope/telescope.nvim'
@@ -72,7 +74,7 @@ call plug#begin()
 	Plug 'sheerun/vim-polyglot'
 	Plug 'plasticboy/vim-markdown'
 	Plug 'skanehira/preview-markdown.vim'
-	Plug 'smancill/conky-syntax.vim'
+"	Plug 'smancill/conky-syntax.vim'
 "php	
 	Plug 'StanAngeloff/php.vim'
 	Plug 'stephpy/vim-php-cs-fixer'
@@ -138,14 +140,20 @@ nnoremap <C-M-Down> :bd!<CR>
 nnoremap <M-r> :RainbowToggle<CR>
 nnoremap <M-p> :PreviewMarkdown right<CR>
 map <M-w> :set wrap!<CR>
-"vnoremap <silent><M-x>s :'<,'>w !scheme --quiet<CR>
-"nnoremap <silent><M-x>s :%w !scheme --quiet<CR>
-"vnoremap <silent><C-M-x>s :'<,'>w !scheme<CR>
-"nnoremap <silent><C-M-x>s :%w !scheme<CR>
-vnoremap <silent><M-x> :'<,'>w !scheme --quiet<CR>
-nnoremap <silent><M-x> :%w !scheme --quiet<CR>
-vnoremap <silent><C-M-x> :'<,'>w !scheme<CR>
-nnoremap <silent><C-M-x> :%w !scheme<CR>
+
+vnoremap <silent><M-x>s :'<,'>w !scheme --quiet<CR>
+nnoremap <silent><M-x>s :%w !scheme --quiet<CR>
+vnoremap <silent><C-M-x>s :'<,'>w !scheme<CR>
+nnoremap <silent><C-M-x>s :%w !scheme<CR>
+
+"vnoremap <silent><M-x> :'<,'>w !scheme --quiet<CR>
+"nnoremap <silent><M-x> :%w !scheme --quiet<CR>
+"vnoremap <silent><C-M-x> :'<,'>w !scheme<CR>
+"nnoremap <silent><C-M-x> :%w !scheme<CR>
+
+
+vnoremap <silent><M-x>p :'<,'>w !python3<CR>
+nnoremap <silent><M-x>p :%w !python3<CR>
 
 nnoremap <C-M-v> :source $MYVIMRC<CR> 
 command Oiv :e $MYVIMRC 
@@ -205,6 +213,13 @@ set spelllang=en
 set spellfile=$HOME/.config/nvim/spell/en.utf-8.add
 "{% endhighlight %}
 
+set tal=0
+let s:tal=0
+set stal=0
+set showtabline=0
 
+"hide tabline when theres only one file open
+autocmd BufWinEnter,WinEnter * if len(filter(range(1, bufnr('$')), 'buflisted(v:val)')) == 1 | set showtabline=0 | else | set showtabline=2 | endif 
 
 lua require('config')
+

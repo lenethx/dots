@@ -1,0 +1,12 @@
+#! /bin/bash
+
+# nmcli -t -f active,ssid dev wifi | egrep '^yes' | cut -d\' -f2 | sed -e "s/^yes://" | xargs -I % sudo cat /etc/NetworkManager/system-connections/%.nmconnection | grep psk= | sed -e "s/^psk=//"
+NETNAME=$(nmcli -t -f active,ssid dev wifi | egrep '^yes' | cut -d\' -f2 | sed -e "s/^yes://")
+
+if [ -f "/etc/NetworkManager/system-connections/${NETNAME}" ]; then
+    PASS=$(sudo cat "/etc/NetworkManager/system-connections/${NETNAME}")
+else 
+    PASS=$(sudo cat "/etc/NetworkManager/system-connections/${NETNAME}.nmconnection")
+fi
+
+echo "$PASS" | grep psk= | sed -e "s/^psk=//"
