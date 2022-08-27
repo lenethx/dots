@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+disklist="$(sudo lsblk -yo NAME,label | grep ─ | sed 's/.─//')"
+#declare -A label2path
+#for val in $disklist; do
+#    = echo val | awk '{print $2}'
+#done
+
+
+
+main() {
+    choice=$(printf '%s\n' "${disklist[@]}" | \
+        dmenu -i -l 20 -p 'What drive to mount?') || exit 1
+
+    drivelabel=$(echo $choice | cut -d ' ' -f2-)
+    drivepath=$(echo $choice | awk '{print $1}')
+
+    if [ "choice" ]; then
+        sudo mkdir -p "/run/media/$(whoami)/$drivelabel"
+        sudo mount "/dev/$drivepath" "/run/media/$(whoami)/$drivelabel"
+    else 
+        echo "Program terminated" && exit 0
+    fi
+}
+
+main
