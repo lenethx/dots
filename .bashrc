@@ -154,4 +154,5 @@ export EDITOR='nvim'
 export SUDO_EDITOR='nvim'
 export VISUAL='nvim'
 
+bind "set completion-ignore-case on"
 #eval "$(zoxide init bash)"

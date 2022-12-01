@@ -1,0 +1,37 @@
+{
+	"name": "Vimium C",
+	"@time": "11/8/2022, 6:36:18 PM",
+	"time": 1667943378392,
+	"environment": {
+		"extension": "1.98.0",
+		"platform": "linux",
+		"chrome": "98"
+	},
+	"exclusionRules": [
+		{
+			"passKeys": "",
+			"pattern": ":https://mail.google.com/"
+		},
+		{
+			"passKeys": "* a b c d d e f g h h i j k l l m n o p q r r s t u v w x y z ",
+			"pattern": ":https://shellshock.io/"
+		},
+		{
+			"passKeys": "o ",
+			"pattern": ":https://www.youtube.com/"
+		},
+		{
+			"passKeys": "d o r t v x ",
+			"pattern": "^https?://"
+		}
+	],
+	"searchUrl": "https://duckduckgo.com/?q=$s DuckDuckGo",
+	"userDefinedCss": [
+		".LH, .D>.LH { color:white;background: rgba(100,50,255,0.6); }",
+		".LH { border: /*!DPI*/ 1px solid lightgreen; }",
+		"/* #omni */",
+		".s { background-color: #d8e3f3; }",
+		""
+	],
+	"vimSync": true
+}
