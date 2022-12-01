@@ -146,14 +146,14 @@ nnoremap <silent><M-x>s :%w !scheme --quiet<CR>
 vnoremap <silent><C-M-x>s :'<,'>w !scheme<CR>
 nnoremap <silent><C-M-x>s :%w !scheme<CR>
 
-"vnoremap <silent><M-x> :'<,'>w !scheme --quiet<CR>
-"nnoremap <silent><M-x> :%w !scheme --quiet<CR>
-"vnoremap <silent><C-M-x> :'<,'>w !scheme<CR>
-"nnoremap <silent><C-M-x> :%w !scheme<CR>
-
-
 vnoremap <silent><M-x>p :'<,'>w !python3<CR>
 nnoremap <silent><M-x>p :%w !python3<CR>
+
+vnoremap <silent><M-x>x :'<,'>! xxd<CR>
+nnoremap <silent><M-x>x :%! xxd <CR>
+vnoremap <silent><C-M-x>x :'<,'>! xxd -r<CR>
+nnoremap <silent><C-M-x>x :%! xxd -r<CR>
+":%! xxd and :%! xxd -r)
 
 nnoremap <C-M-v> :source $MYVIMRC<CR> 
 command Oiv :e $MYVIMRC 
