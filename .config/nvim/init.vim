@@ -26,6 +26,9 @@ set clipboard=unnamedplus
 filetype plugin on
 "set cursorline
 set ttyfast
+set linebreak
+set smoothscroll
+
 autocmd TermOpen * setlocal nonumber norelativenumber
 autocmd TermOpen * :IndentBlanklineDisable
 autocmd BufWinEnter,WinEnter term://* startinsert
