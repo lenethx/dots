@@ -1,3 +1,2 @@
 xinput | grep -i mouse | sed -r 's/.*id=([0-9]*).*/\1/' | xargs -I % xinput set-prop % "libinput Scroll Method Enabled" 0, 0, 1
-
-
+autoadb scrcpy -KSs {}
