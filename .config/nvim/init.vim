@@ -144,10 +144,10 @@ nnoremap <M-r> :RainbowToggle<CR>
 nnoremap <M-p> :PreviewMarkdown right<CR>
 map <M-w> :set wrap!<CR>
 
-vnoremap <silent><M-x>s :'<,'>w !scheme --quiet<CR>
+vnoremap <silent><M-x>s :'<,'>w !csi --quiet<CR>
 nnoremap <silent><M-x>s :%w !scheme --quiet<CR>
-vnoremap <silent><C-M-x>s :'<,'>w !scheme<CR>
-nnoremap <silent><C-M-x>s :%w !scheme<CR>
+vnoremap <silent><C-M-x>s :'<,'>w !racket<CR>
+nnoremap <silent><C-M-x>s :%w !racket<CR>
 
 vnoremap <silent><M-x>p :'<,'>w !python3<CR>
 nnoremap <silent><M-x>p :%w !python3<CR>

@@ -55,6 +55,12 @@ if [ -n "$force_color_prompt" ]; then
     fi
 fi
 
+if [ -f "/etc/arch-release" ]; then
+    source /usr/share/git/completion/git-prompt.sh
+    GIT_PS1_SHOWSTASHSTATE=true
+    GIT_PS1_SHOWDIRTYSTATE=true
+fi	
+
 
 if [ "$color_prompt" = yes ]; then
     #double line git
@@ -125,6 +131,7 @@ alias python='python3'
 alias scheme='rlwrap mit-scheme'
 alias csi='rlwrap csi'
 alias guile='rlwrap guile'
+alias ranger='. ranger'
 
 alias tenes='trans -s en -t es'
 alias tesen='trans -s es -t en'
@@ -136,9 +143,15 @@ alias tdees='trans -s de -t es'
 if [ -f "/etc/debian_version" ]; then
   alias bat='batcat'
 fi
-. "$HOME/.cargo/env"
 
 
+if [ -f "$HOME/.cargo/env" ]; then
+    . "$HOME/.cargo/env"
+fi
+
+if [ -f "$HOME/.rye/env" ]; then
+    . "$HOME/.rye/env"
+fi
 
 # set PATH so it includes user's private ~/.local/bin if it exists
 if [ -d "$HOME/.local/bin" ] ; then
