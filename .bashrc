@@ -89,13 +89,13 @@ if [ -x /usr/bin/dircolors ]; then
     alias dir='dir --color=auto'
     alias vdir='vdir --color=auto'
 
-    alias grep='grep --color=auto'
+    alias grep='grep --color=always'
     alias fgrep='fgrep --color=auto'
     alias egrep='egrep --color=auto'
+    export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
 fi
 
 # colored GCC warnings and errors
-export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
 
 # some more ls aliases
 #alias ll='ls -l'
@@ -132,6 +132,12 @@ alias scheme='rlwrap mit-scheme'
 alias csi='rlwrap csi'
 alias guile='rlwrap guile'
 alias ranger='. ranger'
+alias :wq='exit'
+
+alias lshdu='find -maxdepth 1 -mindepth 1 -print0 | xargs -0 du -sh'
+alias lsdu='find -maxdepth 1 -mindepth 1 -print0 | xargs -0 du -s | sort -k1 -nr'
+
+alias ranger='ranger --choosedir=$HOME/.rangerdir; LASTDIR=`cat $HOME/.rangerdir`; cd "$LASTDIR"'
 
 alias tenes='trans -s en -t es'
 alias tesen='trans -s es -t en'
@@ -167,5 +173,16 @@ export EDITOR='nvim'
 export SUDO_EDITOR='nvim'
 export VISUAL='nvim'
 
+ggl() {
+    w3m "https://google.com/search?q=$*"
+}
+
+
+
+
+
 bind "set completion-ignore-case on"
-#eval "$(zoxide init bash)"
+if type -P "zoxide" &>/dev/null; then
+    eval "$(zoxide init bash)"
+    alias su='sudo bash'
+fi
