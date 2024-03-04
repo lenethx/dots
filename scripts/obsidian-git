@@ -1,0 +1,12 @@
+#!/bin/bash
+
+cd /home/leneth/Documents/journal-vault/
+git add *
+git commit -m "changes"
+git pull 
+git push
+obsidian 
+git add *
+git commit -m "changes"
+git pull 
+git push

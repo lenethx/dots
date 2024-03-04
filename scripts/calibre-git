@@ -1,0 +1,12 @@
+#!/bin/bash
+
+cd '/home/leneth/Calibre Library/Library'
+git add *
+git commit -m "changes"
+git pull 
+git push
+calibre --detach
+git add *
+git commit -m "changes"
+git pull 
+git push
