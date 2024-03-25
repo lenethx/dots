@@ -91,6 +91,7 @@
 "clock": {
         "format": "{:%A, %B %d, %Y %R}",
         "format-alt": "{:%A, %B %d, %Y %R} ",
+        "timezone": "America/Argentina/Buenos_Aires",
     },
 
 "cpu": {
