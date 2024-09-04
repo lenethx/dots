@@ -129,13 +129,16 @@ alias nv='nvim'
 alias py='python3'
 alias python='python3'
 alias scheme='rlwrap mit-scheme'
-alias csi='rlwrap csi'
 alias guile='rlwrap guile'
 alias ranger='. ranger'
 alias :wq='exit'
 
 alias lshdu='find -maxdepth 1 -mindepth 1 -print0 | xargs -0 du -sh'
 alias lsdu='find -maxdepth 1 -mindepth 1 -print0 | xargs -0 du -s | sort -k1 -nr'
+
+
+
+alias setproxy='export http_proxy="http://192.168.49.1:8282";export https_proxy=$http_proxy; export ftp_proxy=$http_proxy; export rsync_proxy=$http_proxy;'
 
 #alias ranger='ranger --choosedir=$HOME/.rangerdir; LASTDIR=`cat $HOME/.rangerdir`; cd "$LASTDIR"'
 
@@ -146,9 +149,30 @@ alias tdeen='trans -s de -t en'
 alias tesde='trans -s es -t de'
 alias tdees='trans -s de -t es'
 
+function ankill() { ps aux | grep anki | head -n1 | awk '{ print $2}' | xargs kill -9; }
+
+function stproxy() {
+    export http_proxy=$phoneproxy
+    export https_proxy=$http_proxy
+    export ftp_proxy=$http_proxy
+    export rsync_proxy=$http_proxy
+    export HTTP_PROXY=$proxy 
+    export HTTPS_PROXY=$proxy 
+    export FTP_PROXY=$proxy 
+    export RSYNC_PROXY=$proxy
+    export no_proxy="localhost,127.0.0.1,localaddress,.localdomain.com"
+}
+
+
 if [ -f "/etc/debian_version" ]; then
   alias bat='batcat'
 fi
+
+if [ -f "/etc/arch-release" ]; then
+    alias csi='rlwrap chicken-csi'
+else
+    alias csi='rlwrap csi'
+fi	
 
 
 if [ -f "$HOME/.cargo/env" ]; then
@@ -172,6 +196,7 @@ fi
 export EDITOR='nvim'
 export SUDO_EDITOR='nvim'
 export VISUAL='nvim'
+export phoneproxy="http://192.168.49.1:8282"
 
 ggl() {
     w3m "https://google.com/search?q=$*"
