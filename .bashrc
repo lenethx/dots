@@ -138,7 +138,6 @@ alias lsdu='find -maxdepth 1 -mindepth 1 -print0 | xargs -0 du -s | sort -k1 -nr
 
 
 
-alias setproxy='export http_proxy="http://192.168.49.1:8282";export https_proxy=$http_proxy; export ftp_proxy=$http_proxy; export rsync_proxy=$http_proxy;'
 
 #alias ranger='ranger --choosedir=$HOME/.rangerdir; LASTDIR=`cat $HOME/.rangerdir`; cd "$LASTDIR"'
 
