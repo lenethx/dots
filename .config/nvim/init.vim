@@ -226,3 +226,4 @@ autocmd BufWinEnter,WinEnter * if len(filter(range(1, bufnr('$')), 'buflisted(v:
 
 lua require('config')
 
+set nofoldenable
