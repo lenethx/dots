@@ -177,6 +177,10 @@ ggl() {
     w3m "https://google.com/search?q=$*"
 }
 
+nvsdn() {
+    cd ~/Documents/journal-vault/ && nv .
+}
+
 stty -ixon
 
 bind "set completion-ignore-case on"
