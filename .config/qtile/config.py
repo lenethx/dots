@@ -33,6 +33,7 @@
 # - mouse movement to resize windows
 # - cursor size/envs
 # - microphone widget
+# - chome tab drag and drop
 
 from libqtile import bar, layout, widget, hook, qtile
 from qtile_extras import widget as ewidget
