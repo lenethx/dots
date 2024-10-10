@@ -98,7 +98,7 @@ def auto_sticky_windows(window):
 transparent_windows = []
 
 @lazy.function
-def toggle_transparent_windows(qtile, window=None):
+def toggle_transparent_windows(qtile, window=None, transparency=0.5):
     if window is None:
         window = qtile.current_screen.group.current_window
     if window in transparent_windows:
@@ -106,7 +106,7 @@ def toggle_transparent_windows(qtile, window=None):
         window.set_opacity(1)
     else:
         transparent_windows.append(window)
-        window.set_opacity(0.5)
+        window.set_opacity(transparency)
     return window
 
 
@@ -137,7 +137,7 @@ keys = [
     Key([mod], "l", lazy.layout.right(), desc="Move focus to right"),
     Key([mod], "j", lazy.layout.down(), desc="Move focus down"),
     Key([mod], "k", lazy.layout.up(), desc="Move focus up"),
-    #Key([mod], "space", lazy.layout.next(), desc="Move window focus to other window"),
+    Key([mod], "m", lazy.layout.next(), desc="Move window focus to other window"),
     # Move windows between left/right columns or move up/down in current stack.
     # Moving out of range in Columns layout will create new column.
     Key([mod, "shift"], "h", lazy.layout.shuffle_left(), desc="Move window to the left"),
@@ -188,7 +188,8 @@ keys = [
     #),
     Key([mod], "f", lazy.window.toggle_floating(), desc="Toggle floating on the focused window"),
     Key([mod], "space", toggle_sticky_windows(), desc="Toggle pin on the focused window"),
-    Key([mod], "t", toggle_transparent_windows(), desc="Toggle opacity on the focused window"),
+    Key([mod], "t", toggle_transparent_windows(transparency=0.5), desc="Toggle opacity on the focused window"),
+    Key([mod, "shift"], "t", toggle_transparent_windows(transparency=0.9), desc="Toggle opacity on the focused window"),
 
 
     Key([mod, "control", "shift"], "o", 
@@ -231,7 +232,7 @@ if qtile.core.name == "wayland":
 ]
 else:
     keys += [
-
+    Key([mod], "c", lazy.spawn("xfce4-popup-clipman", shell=True), desc="Loads copied clipboard"),
 ]
 
 
