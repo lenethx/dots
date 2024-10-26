@@ -71,7 +71,7 @@ call plug#begin()
 	Plug 'lewis6991/gitsigns.nvim'
 	Plug 'nvim-telescope/telescope.nvim'
 	Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-"	Plug 'frazrepo/vim-rainbow'
+	Plug 'frazrepo/vim-rainbow'
 "language support
 
 	Plug 'sheerun/vim-polyglot'
