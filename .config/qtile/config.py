@@ -28,6 +28,10 @@
 # keyboard cannot be changed directly, instead change XKB_DEFAULT_LAYOUT 
 
 #TODO
+# - background btop
+# - dont focus notifications
+# - dont move mouse unless explicitly move focus between windows (not switching workspaces)
+# - move from/to floating windows with arrow keys
 # - swipe gestures (see github issue 800)
 # - fullscreen bar 
 # - mouse movement to resize windows
@@ -90,6 +94,35 @@ def auto_sticky_windows(window):
 
 
 
+# transparency
+transparent_windows = []
+
+@lazy.function
+def toggle_transparent_windows(qtile, window=None, transparency=0.5):
+    if window is None:
+        window = qtile.current_screen.group.current_window
+    if window in transparent_windows:
+        transparent_windows.remove(window)
+        window.set_opacity(1)
+    else:
+        transparent_windows.append(window)
+        window.set_opacity(transparency)
+    return window
+
+
+@hook.subscribe.client_killed
+def remove_transparent_windows(window):
+    if window in transparent_windows:
+        transparent_windows.remove(window)
+
+@hook.subscribe.client_managed
+def auto_transparent_windows(window):
+    info = window.info()
+    auto_transparent = []# ["Picture in picture", "Picture-in-Picture"]
+    # info['wm_class'] == ['Toolkit', 'firefox'] and
+    if ( info['name'] in auto_transparent):
+        transparent_windows.append(window)
+        window.set_opacity(0.5)
 
 
 
@@ -104,7 +137,7 @@ keys = [
     Key([mod], "l", lazy.layout.right(), desc="Move focus to right"),
     Key([mod], "j", lazy.layout.down(), desc="Move focus down"),
     Key([mod], "k", lazy.layout.up(), desc="Move focus up"),
-    Key([mod], "space", lazy.layout.next(), desc="Move window focus to other window"),
+    Key([mod], "m", lazy.layout.next(), desc="Move window focus to other window"),
     # Move windows between left/right columns or move up/down in current stack.
     # Moving out of range in Columns layout will create new column.
     Key([mod, "shift"], "h", lazy.layout.shuffle_left(), desc="Move window to the left"),
@@ -154,7 +187,17 @@ keys = [
     #    desc="Toggle fullscreen on the focused window",
     #),
     Key([mod], "f", lazy.window.toggle_floating(), desc="Toggle floating on the focused window"),
-    Key([mod], "p", toggle_sticky_windows(), desc="Toggle pin on the focused window"),
+    Key([mod], "space", toggle_sticky_windows(), desc="Toggle pin on the focused window"),
+    Key([mod], "t", toggle_transparent_windows(transparency=0.5), desc="Toggle opacity on the focused window"),
+    Key([mod, "shift"], "t", toggle_transparent_windows(transparency=0.9), desc="Toggle opacity on the focused window"),
+
+
+    Key([mod, "control", "shift"], "o", 
+        toggle_sticky_windows(), 
+        lazy.window.toggle_floating(),
+        lazy.window.toggle_maximize(),
+        lazy.window.keep_below(True),
+        desc="Toggle pin on the focused window"),
 
 
     ######## Qtile Stuff #######
@@ -189,11 +232,11 @@ if qtile.core.name == "wayland":
 ]
 else:
     keys += [
-
+    Key([mod], "c", lazy.spawn("xfce4-popup-clipman", shell=True), desc="Loads copied clipboard"),
 ]
 
 
-groups = [Group(i) for i in "123456789"]
+groups = [Group(i) for i in "1234567890"]
 
 for i in groups:
     keys.extend(
@@ -251,9 +294,10 @@ widget_defaults = dict(
 )
 extension_defaults = widget_defaults.copy()
 
-screens = [
-    Screen(
-        bottom=bar.Bar(
+bars = dict()
+
+if qtile.core.name == "wayland":
+    bars["bottom"]=bar.Bar(
             [
                 widget.GenPollCommand(cmd="whoami"),
                 widget.GenPollCommand(cmd="uptime | awk -F'( |,|:)+' '{d=h=m=0; if ($7==\"min\") m=$6; else {if ($7~/^day/) {d=$6;h=$8;m=$9} else {h=$6;m=$7}}} {print d+0\"d\",h+0\"h\",m+0\"m\"}'", shell=True, fmt=' {}'),
@@ -326,13 +370,26 @@ screens = [
             #background=["#FFFFFF","#FFFFFF"],
             # border_width=[2, 0, 2, 0],  # Draw top and bottom borders
             # border_color=["ff00ff", "000000", "ff00ff", "000000"]  # Borders are magenta
-        ),
+        )
+else:
+    #bars["top"]=bar.Bar([], 25)
+    bars["top"]=bar.Gap(size=25)
+
+
         # You can uncomment this variable if you see that on X11 floating resize/moving is laggy
         # By default we handle these events delayed to already improve performance, however your system might still be struggling
         # This variable is set to None (no cap) by default, but you can set it to 60 to indicate that you limit it to 60 events per second
         # x11_drag_polling_rate = 60,
-            wallpaper="/home/leneth/Pictures/wallpapers/ruckenfigur_unsorted/1699525592129581.png",
-            wallpaper_mode="fill",
+
+if qtile.core.name == "wayland":
+    bars["wallpaper"]="/home/leneth/Downloads/September10130738.png"
+else:
+    bars["wallpaper"]="/home/leneth/Pictures/wallpapers/ruckenfigur_unsorted/1699525592129581.png",
+
+bars["wallpaper_mode"]="fill"
+screens = [
+    Screen(
+        **bars
     ),
 ]
 
@@ -360,6 +417,7 @@ floating_layout = layout.Floating(
         Match(wm_class="ssh-askpass"),  # ssh-askpass
         Match(title="branchdialog"),  # gitk
         Match(title="pinentry"),  # GPG key password entry
+        Match(title="Whisker Menu"),  # GPG key password entry
     ]
 )
 auto_fullscreen = True
@@ -402,6 +460,10 @@ def tstsrt():
 
 @hook.subscribe.startup_once
 def autostart():
+    #qtile.spawn("kitty")
+    #for item in qtile.windows():
+    #    if "kitty-bg" in item["wm_class"]:
+    #        
     if qtile.core.name == "wayland":
         qtile.spawn('udiskie')
         qtile.spawn('nm-applet')
@@ -410,5 +472,5 @@ def autostart():
         qtile.spawn('wl-paste --type image --watch cliphist store')
         qtile.spawn('dunst')
     else:
-        pass
+        qtile.spawn("picom")
 

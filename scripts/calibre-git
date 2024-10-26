@@ -2,11 +2,13 @@
 
 cd '/home/leneth/Calibre Library/Library'
 git add *
+git add .
 git commit -m "changes"
 git pull 
 git push
-calibre --detach
+calibre 
 git add *
+git add .
 git commit -m "changes"
 git pull 
 git push

@@ -1,5 +1,9 @@
 local nvim_lsp = require('lspconfig')
 
+
+vim.g.diagnostics_active = true
+
+
 --no idea, copy pasted
 local on_attach = function(client, bufnr)
   local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end  -- Mappings.
@@ -31,6 +35,11 @@ nvim_lsp.jsonls.setup {
 
 --vscode js/ts
 nvim_lsp.eslint.setup {
+	capabilities = capabilities,
+}
+
+
+nvim_lsp.rust_analyzer.setup {
 	capabilities = capabilities,
 }
 
@@ -189,7 +198,7 @@ require('bufferline').setup {
 
 
 --git stuff
-require('gitsigns').setup()
+--require('gitsigns').setup()
 --require('feline').setup()
 --
 --
@@ -197,11 +206,11 @@ require('gitsigns').setup()
   local cmp = require'cmp'
 
   cmp.setup({
-    snippet = {
-      expand = function(args)
-        vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
-      end,
-    },
+   -- snippet = {
+   --   expand = function(args)
+   --     vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
+   --   end,
+   -- },
     mapping = {
       ['<C-b>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i', 'c' }),
       ['<C-f>'] = cmp.mapping(cmp.mapping.scroll_docs(4), { 'i', 'c' }),
@@ -211,11 +220,11 @@ require('gitsigns').setup()
         i = cmp.mapping.abort(),
         c = cmp.mapping.close(),
       }),
-      ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+      ['<TAB>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
     },
     sources = cmp.config.sources({
       { name = 'nvim_lsp' },
-      { name = 'vsnip' }, -- For vsnip users.
+      --{ name = 'vsnip' }, -- For vsnip users.
 --    { name = 'emmet_ls' },
     }, {
       { name = 'buffer' },
@@ -237,3 +246,9 @@ require('gitsigns').setup()
       { name = 'cmdline' }
     })
   })
+
+-- local trouble = require'trouble'
+
+--trouble.setup({
+--  cmd = "Trouble"
+--  })

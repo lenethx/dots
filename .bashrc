@@ -44,6 +44,12 @@ esac
 # should be on the output of commands, not on the prompt
 force_color_prompt=yes
 
+if [ -f "/etc/arch-release" ]; then
+    source /usr/share/git/completion/git-prompt.sh
+    GIT_PS1_SHOWSTASHSTATE=true
+    GIT_PS1_SHOWDIRTYSTATE=true
+fi	
+
 if [ -n "$force_color_prompt" ]; then
     if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
 	# We have color support; assume it's compliant with Ecma-48
@@ -55,37 +61,40 @@ if [ -n "$force_color_prompt" ]; then
     fi
 fi
 
-if [ -f "/etc/arch-release" ]; then
-    source /usr/share/git/completion/git-prompt.sh
-    GIT_PS1_SHOWSTASHSTATE=true
-    GIT_PS1_SHOWDIRTYSTATE=true
-fi	
+if [ "$(cat /etc/hostname)" = "leneth-deb" ]; then
+    hostdata="@$(tput setaf 235)$(tput setab 15)onyx"
+elif [ "$(cat /etc/hostname)" = "cybarch" ]; then
+    hostdata=""
+elif [ "$(cat /etc/hostname)" = "pearl" ]; then
+    hostdata="@$(tput setaf 252)$(cat /etc/hostname)"
+fi
 
-
+# $(tput setaf 141 bold) only works on newer versions of tput annoyingly 
 if [ "$color_prompt" = yes ]; then
-    #double line git
-    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;38;5;141m\]\n\@ \[\033[01;38;05;99m\]\u\[\033[00m\]:\[\033[01;38;05;213m\]\w\[\033[00m\] `[[ $(git status 2> /dev/null) =~ Changes\ to\ be\ committed: ]] && echo "\[\e[38;05;216m\]" || echo "\[\e[38;05;197m\]"``[[ ! $(git status 2> /dev/null) =~ nothing\ to\ commit,\ working\ .+\ clean ]] || echo "\[\e[38;05;47m\]"`$(__git_ps1 "%s\[\e[00m\]")\[$(tput sgr0)\]\$\[$(tput bold)\]\n--> \[\e[00m\]'
-    #nerdfont simple powerline
-    #PS1='\[\033[7m\]\[\033[01;38;05;99m\] \u \[\033[0m\]\[\033[01;38;05;99;48;05;141m\]\[\033[0m\]\[\033[01;38;05;141m\]\[\033[7m\] \w \[\033[0m\]\[\033[01;38;05;141m\] \[\033[0m\]'
+    if true; then
+        PS1='${debian_chroot:+($debian_chroot)}$(tput setaf 141)$(tput bold)\n\@ $(tput setaf 99)\u$(tput sgr0)$(tput bold)'"${hostdata:-}"'$(tput sgr0): $(tput setaf 213)$(tput bold)\w$(tput sgr0) `[[ $(git status 2> /dev/null) =~ Changes\ to\ be\ committed: ]] && echo "\[\e[38;05;216m\]" || echo "\[\e[38;05;197m\]"``[[ ! $(git status 2> /dev/null) =~ nothing\ to\ commit,\ working\ .+\ clean ]] || echo "\[\e[38;05;47m\]"`$(__git_ps1 "%s\[\e[00m\]")\[$(tput sgr0)\]\$\[$(tput bold)\]\n--> \[\e[00m\]'
+    else 
+        PS1='\[\033[7m\]\[\033[01;38;05;99m\] \u \[\033[0m\]\[\033[01;38;05;99;48;05;141m\]\[\033[0m\]\[\033[01;38;05;141m\]\[\033[7m\] \w \[\033[0m\]\[\033[01;38;05;141m\] \[\033[0m\]'
+    fi
 else
     PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
 fi
-unset color_prompt force_color_prompt
+unset color_prompt force_color_prompt hostdata
 
 # If this is an xterm set the title to user@host:dir
-#case "$TERM" in
-#xterm*|rxvt*)
-#    PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
-#    ;;
-#*)
-#    ;;
-#esac
+# case "$TERM" in
+# xterm*|rxvt*)
+#     PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
+#     ;;
+# *)
+#     ;;
+# esac
 
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
     test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
-    alias la='ls -A --color=auto'
-    alias ls='ls --color=auto'
+    alias la='ls -A --color=auto --hyperlink=auto'
+    alias ls='ls --color=auto --hyperlink=auto'
     alias dir='dir --color=auto'
     alias vdir='vdir --color=auto'
 
@@ -165,6 +174,19 @@ function stproxy() {
 
 if [ -f "/etc/debian_version" ]; then
   alias bat='batcat'
+
+
+
+    PATH="/home/leneth/perl5/bin${PATH:+:${PATH}}"; export PATH;
+    PERL5LIB="/home/leneth/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"; export PERL5LIB;
+    PERL_LOCAL_LIB_ROOT="/home/leneth/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"; export PERL_LOCAL_LIB_ROOT;
+    PERL_MB_OPT="--install_base \"/home/leneth/perl5\""; export PERL_MB_OPT;
+    PERL_MM_OPT="INSTALL_BASE=/home/leneth/perl5"; export PERL_MM_OPT;
+
+
+    export NVM_DIR="$HOME/.nvm"
+    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+    [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 fi
 
 if [ -f "/etc/arch-release" ]; then
@@ -199,6 +221,10 @@ export phoneproxy="http://192.168.49.1:8282"
 
 ggl() {
     w3m "https://google.com/search?q=$*"
+}
+
+nvsdn() {
+    cd ~/Documents/journal-vault/ && nv .
 }
 
 stty -ixon
