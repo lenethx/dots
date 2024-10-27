@@ -382,9 +382,9 @@ else:
         # x11_drag_polling_rate = 60,
 
 if qtile.core.name == "wayland":
-    bars["wallpaper"]="/home/leneth/Downloads/September10130738.png"
+    bars["wallpaper"]="/home/leneth/Pictures/wallpapers/ruckenfigur_unsorted/1699525592129581.png"
 else:
-    bars["wallpaper"]="/home/leneth/Pictures/wallpapers/ruckenfigur_unsorted/1699525592129581.png",
+    bars["wallpaper"]="/home/leneth/Pictures/wfn47rnkkk2d1.jpeg"
 
 bars["wallpaper_mode"]="fill"
 screens = [

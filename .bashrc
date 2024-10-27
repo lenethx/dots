@@ -141,6 +141,8 @@ alias scheme='rlwrap mit-scheme'
 alias guile='rlwrap guile'
 alias ranger='. ranger'
 alias :wq='exit'
+alias reset='tput reset'
+alias git-rmignored='git ls-files -c --ignored --exclude-standard -z | xargs -0 git rm --cached'
 
 alias lshdu='find -maxdepth 1 -mindepth 1 -print0 | xargs -0 du -sh'
 alias lsdu='find -maxdepth 1 -mindepth 1 -print0 | xargs -0 du -s | sort -k1 -nr'
