@@ -57,3 +57,7 @@ baobab %d
 # Open Terminal Here (WL)
 kitty -d %f --detach
 ```
+```ini
+#/etc/sysctl.d/99-swappiness.conf
+vm.swappiness = 0
+```
