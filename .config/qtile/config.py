@@ -186,7 +186,7 @@ keys = [
     #    lazy.window.toggle_fullscreen(),
     #    desc="Toggle fullscreen on the focused window",
     #),
-    Key([mod], "f", lazy.window.toggle_floating(), desc="Toggle floating on the focused window"),
+    Key([mod], "z", lazy.window.toggle_floating(), desc="Toggle floating on the focused window"),
     Key([mod], "space", toggle_sticky_windows(), desc="Toggle pin on the focused window"),
     Key([mod], "t", toggle_transparent_windows(transparency=0.5), desc="Toggle opacity on the focused window"),
     Key([mod, "shift"], "t", toggle_transparent_windows(transparency=0.9), desc="Toggle opacity on the focused window"),
@@ -229,6 +229,23 @@ if qtile.core.name == "wayland":
     Key([mod, "shift"], "s", lazy.spawn("grimblast --freeze copy area"), desc="Screenshot area and copy to clipboard"),
     Key([mod, "shift", "control"], "s", lazy.spawn("grimblast --freeze save area", shell=True, env={"XDG_SCREENSHOTS_DIR":"/home/leneth/Pictures/screenshots"}), desc="Screenshot area and save"),
     Key([mod], "c", lazy.spawn("cliphist list | wofi --dmenu | cliphist decode | wl-copy", shell=True), desc="Loads copied clipboard"),
+
+    Key([mod], "Down", lazy.spawn("wlrctl pointer move 0 10"), desc="Moves mouse Down"),
+    Key([mod], "Up", lazy.spawn("wlrctl pointer move 0 -10"), desc="Moves mouse Up"),
+    Key([mod], "Right", lazy.spawn("wlrctl pointer move 10 0"), desc="Moves mouse Right"),
+    Key([mod], "Left", lazy.spawn("wlrctl pointer move -10 0"), desc="Moves mouse left"),
+
+    Key([mod, "shift"], "Down", lazy.spawn("wlrctl pointer move 0 50"), desc="Moves mouse Down"),
+    Key([mod, "shift"], "Up", lazy.spawn("wlrctl pointer move 0 -50"), desc="Moves mouse Up"),
+    Key([mod, "shift"], "Right", lazy.spawn("wlrctl pointer move 50 0"), desc="Moves mouse Right"),
+    Key([mod, "shift"], "Left", lazy.spawn("wlrctl pointer move -50 0"), desc="Moves mouse left"),
+
+
+    Key([mod], "g", lazy.spawn("sleep 0.1 && wlrctl pointer click left", shell=True), desc="Left Click"),
+    Key([mod], "b", lazy.spawn("sleep 0.1 && wlrctl pointer click middle", shell=True), desc="Middle Click"),
+    Key([mod], "Menu", lazy.spawn("sleep 0.1 && wlrctl pointer click right", shell=True), desc="Right Click"),
+    Key([mod], "f", lazy.spawn("wl-kbptr"), desc="Vimium click"),
+
 ]
 else:
     keys += [
@@ -431,7 +448,7 @@ auto_minimize = False
 # When using the Wayland backend, this can be used to configure input devices.
 wl_input_rules = {
     "type:keyboard": InputConfig(
-        kb_options="ctrl:nocaps", 
+        kb_options="ctrl:nocaps,keypad:pointerkeys", 
         kb_layout="us",
         kb_variant="altgr-intl",
         kb_repeat_delay=220,
