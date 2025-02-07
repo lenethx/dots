@@ -38,6 +38,7 @@
 # - cursor size/envs
 # - microphone widget
 # - chome tab drag and drop
+# - force kill
 
 from libqtile import bar, layout, widget, hook, qtile
 from qtile_extras import widget as ewidget
@@ -137,7 +138,7 @@ keys = [
     Key([mod], "l", lazy.layout.right(), desc="Move focus to right"),
     Key([mod], "j", lazy.layout.down(), desc="Move focus down"),
     Key([mod], "k", lazy.layout.up(), desc="Move focus up"),
-    Key([mod], "m", lazy.layout.next(), desc="Move window focus to other window"),
+    Key([mod], "Tab", lazy.layout.next(), desc="Move window focus to other window"),
     # Move windows between left/right columns or move up/down in current stack.
     # Moving out of range in Columns layout will create new column.
     Key([mod, "shift"], "h", lazy.layout.shuffle_left(), desc="Move window to the left"),
@@ -177,19 +178,18 @@ keys = [
         desc="Toggle between split and unsplit sides of stack",
     ),
     # Toggle between different layouts as defined below
-    Key([mod], "a", lazy.next_layout(), desc="Toggle between layouts"),
+    Key([mod], "a", lazy.next_layout(), desc="Toggle Fullscreen"),
     Key([mod], "w", lazy.window.kill(), desc="Kill focused window"),
-    # TODO forcekill, if necessary.
     #Key(
     #    [mod],
     #    "a",
     #    lazy.window.toggle_fullscreen(),
     #    desc="Toggle fullscreen on the focused window",
     #),
-    Key([mod], "z", lazy.window.toggle_floating(), desc="Toggle floating on the focused window"),
+    Key([mod], "d", lazy.window.toggle_floating(), desc="Toggle floating on the focused window"),
     Key([mod], "space", toggle_sticky_windows(), desc="Toggle pin on the focused window"),
     Key([mod], "t", toggle_transparent_windows(transparency=0.5), desc="Toggle opacity on the focused window"),
-    Key([mod, "shift"], "t", toggle_transparent_windows(transparency=0.9), desc="Toggle opacity on the focused window"),
+    Key([mod, "shift"], "t", toggle_transparent_windows(transparency=0.9), desc="Toggle weak opacity on the focused window"),
 
 
     Key([mod, "control", "shift"], "o", 
@@ -197,7 +197,7 @@ keys = [
         lazy.window.toggle_floating(),
         lazy.window.toggle_maximize(),
         lazy.window.keep_below(True),
-        desc="Toggle pin on the focused window"),
+        desc="winwrap"),
 
 
     ######## Qtile Stuff #######
@@ -241,10 +241,10 @@ if qtile.core.name == "wayland":
     Key([mod, "shift"], "Left", lazy.spawn("wlrctl pointer move -50 0"), desc="Moves mouse left"),
 
 
-    Key([mod], "g", lazy.spawn("sleep 0.1 && wlrctl pointer click left", shell=True), desc="Left Click"),
-    Key([mod], "b", lazy.spawn("sleep 0.1 && wlrctl pointer click middle", shell=True), desc="Middle Click"),
+    Key([mod], "z", lazy.spawn("sleep 0.1 && wlrctl pointer click left", shell=True), desc="Left Click"),
+    Key([mod], "x", lazy.spawn("sleep 0.1 && wlrctl pointer click middle", shell=True), desc="Middle Click"),
     Key([mod], "Menu", lazy.spawn("sleep 0.1 && wlrctl pointer click right", shell=True), desc="Right Click"),
-    Key([mod], "f", lazy.spawn("wl-kbptr"), desc="Vimium click"),
+    Key([mod], "f", lazy.spawn("wl-kbptr -c ~/.config/wl-kbptr/config", shell=True), desc="Vimium click"),
 
 ]
 else:

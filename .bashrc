@@ -147,7 +147,8 @@ alias git-rmignored='git ls-files -c --ignored --exclude-standard -z | xargs -0 
 alias lshdu='find -maxdepth 1 -mindepth 1 -print0 | xargs -0 du -sh'
 alias lsdu='find -maxdepth 1 -mindepth 1 -print0 | xargs -0 du -s | sort -k1 -nr'
 
-
+alias qtile-spawn='qtile cmd-obj -o root -f spawn -a'
+alias qtile-reload='qtile cmd-obj -o root -f reload_config'
 
 
 #alias ranger='ranger --choosedir=$HOME/.rangerdir; LASTDIR=`cat $HOME/.rangerdir`; cd "$LASTDIR"'
