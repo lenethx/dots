@@ -51,8 +51,10 @@ import subprocess
 mod = "mod4"
 imageEditor = "gimp"
 fileManager = "thunar"
+is_on_laptop = qtile.core.name == "wayland" 
 
-if qtile.core.name == "wayland":
+
+if is_on_laptop:
     terminal = "kitty --single-instance" #guess_terminal()
     menu = "wofi --show drun"
 else:
@@ -217,7 +219,7 @@ keys = [
 
 
 
-if qtile.core.name == "wayland":
+if is_on_laptop:
     keys += [
     Key([], "XF86AudioMute", lazy.spawn("pactl set-sink-mute @DEFAULT_SINK@ toggle"), desc="Mute audio"),
     Key([], "XF86AudioRaiseVolume", lazy.spawn("pactl set-sink-volume @DEFAULT_SINK@ +1%"), desc="Increase Volume"),
@@ -313,7 +315,7 @@ extension_defaults = widget_defaults.copy()
 
 bars = dict()
 
-if qtile.core.name == "wayland":
+if is_on_laptop:
     bars["bottom"]=bar.Bar(
             [
                 widget.GenPollCommand(cmd="whoami"),
@@ -398,7 +400,7 @@ else:
         # This variable is set to None (no cap) by default, but you can set it to 60 to indicate that you limit it to 60 events per second
         # x11_drag_polling_rate = 60,
 
-if qtile.core.name == "wayland":
+if is_on_laptop:
     bars["wallpaper"]="/home/leneth/Pictures/wallpapers/ruckenfigur_unsorted/1699525592129581.png"
 else:
     bars["wallpaper"]="/home/leneth/Pictures/wfn47rnkkk2d1.jpeg"
@@ -411,6 +413,7 @@ screens = [
 ]
 
 # Drag floating layouts.
+#if not is_on_laptop:
 mouse = [
     Drag([mod], "Button1", lazy.window.set_position(), start=lazy.window.get_position()),
     Drag([mod, "shift"], "Button1", lazy.window.set_size_floating(), start=lazy.window.get_size()),
@@ -468,8 +471,8 @@ wl_input_rules = {
 #
 # We choose LG3D to maximize irony: it is a 3D non-reparenting WM written in
 # java that happens to be on java's whitelist.
-#wmname = "LG3D"
-wmname = "compiz"
+wmname = "LG3D"
+#wmname = "compiz"
 
 @hook.subscribe.startup
 def tstsrt():
@@ -481,7 +484,7 @@ def autostart():
     #for item in qtile.windows():
     #    if "kitty-bg" in item["wm_class"]:
     #        
-    if qtile.core.name == "wayland":
+    if is_on_laptop:
         qtile.spawn('udiskie')
         qtile.spawn('nm-applet')
         qtile.spawn('systemctl --user start plasma-polkit-agent')
