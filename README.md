@@ -56,6 +56,9 @@ du -chs %N | zenity --text-info
 baobab %d
 # Open Terminal Here (WL)
 kitty -d %f --detach
+# Set as wallpaper Qtile
+perl -i -pe 'if (/else:/) { $p=1; next } if ($p) { if (m{bars\["wallpaper"\]\s*=}) { s#(bars\["wallpaper"\]\s*=\s*)"[^"]*"#$1"%f"# } $p=0 }' CONFIG_FILEPATH
+perl -i -pe 'if (/if is_on_laptop:/) { $q=1; next } if ($q) { if (m{bars\["wallpaper"\]\s*=}) { s#(bars\["wallpaper"\]\s*=\s*)"[^"]*"#$1"/new/laptop/path.jpg"# } $q=0 }' CONFIG_FILEPATH
 ```
 ```ini
 #/etc/sysctl.d/99-swappiness.conf
