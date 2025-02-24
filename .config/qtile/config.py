@@ -47,6 +47,8 @@ from libqtile.lazy import lazy
 from libqtile.utils import guess_terminal, send_notification
 from libqtile.backend.wayland.inputs import InputConfig
 import subprocess
+import random
+import os
 
 mod = "mod4"
 imageEditor = "gimp"
@@ -400,12 +402,10 @@ else:
         # This variable is set to None (no cap) by default, but you can set it to 60 to indicate that you limit it to 60 events per second
         # x11_drag_polling_rate = 60,
 
-if is_on_laptop:
-    bars["wallpaper"]="/home/leneth/Pictures/wallpapers/ruckenfigur_unsorted/1699525592129581.png"
-else:
-    bars["wallpaper"]="/home/leneth/Pictures/wfn47rnkkk2d1.jpeg"
+bars["wallpaper"]=random.choice(
+    [os.path.join(r, f) for r, _, files in os.walk("/home/leneth/Pictures/wallpapers") if "/." not in r for f in files if not f.startswith('.')])
 
-bars["wallpaper_mode"]="fill"
+bars["wallpaper_mode"]="stretch"  #  "fill"
 screens = [
     Screen(
         **bars
