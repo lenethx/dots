@@ -64,3 +64,13 @@ perl -i -pe 'if (/if is_on_laptop:/) { $q=1; next } if ($q) { if (m{bars\["wallp
 #/etc/sysctl.d/99-swappiness.conf
 vm.swappiness = 0
 ```
+
+```json
+#~/.config/discord/settings.json 
+{
+...
+"SKIP_HOST_UPDATE": true,
+...
+}
+```
+
