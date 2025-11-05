@@ -156,6 +156,10 @@ nnoremap <silent><C-M-x>s :%w !scheme<CR>
 vnoremap <silent><M-x>p :'<,'>w !python3<CR>
 nnoremap <silent><M-x>p :%w !python3<CR>
 
+"vnoremap <silent><M-x>h :'<,'>w execute "!xargs -I % echo \":{\n%\n:}\" \| ghci"<CR>
+"nnoremap <silent><M-x>h :%w !xargs -I % echo ":{\n%\n:}" \| ghci<CR>
+
+
 vnoremap <silent><M-x>x :'<,'>! xxd<CR>
 nnoremap <silent><M-x>x :%! xxd <CR>
 vnoremap <silent><C-M-x>x :'<,'>! xxd -r<CR>

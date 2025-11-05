@@ -10,8 +10,8 @@
 # append to the history file, don't overwrite it
 # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
 export HISTCONTROL=ignoredups:erasedups  # no duplicate entries
-export HISTSIZE=100000                   # big big history
-export HISTFILESIZE=100000               # big big history
+export HISTSIZE=10000000                   # big big history
+export HISTFILESIZE=10000000               # big big history
 shopt -s histappend                      # append to history, don't overwrite it
 
 # Save and reload the history after each command finishes
@@ -138,6 +138,7 @@ alias nv='nvim'
 alias py='python3'
 alias python='python3'
 alias scheme='rlwrap mit-scheme'
+#alias swipl='rlwrap --always-readline swipl'
 alias guile='rlwrap guile'
 alias ranger='. ranger'
 alias :wq='exit'
@@ -172,6 +173,10 @@ function stproxy() {
     export FTP_PROXY=$proxy 
     export RSYNC_PROXY=$proxy
     export no_proxy="localhost,127.0.0.1,localaddress,.localdomain.com"
+}
+
+function wmrun() { #TODO fix for other WMS
+     niri msg action spawn -- $1 $(pwd)
 }
 
 
@@ -215,6 +220,22 @@ fi
 # set PATH so it includes user's private ~/.cargo/bin if it exists
 if [ -d "$HOME/.cargo/bin" ] ; then
     PATH="$HOME/.cargo/bin:$PATH"
+fi
+
+
+if [ -d "$HOME/.ghcup/bin" ] ; then
+    PATH="$HOME/.ghcup/bin:$PATH"
+fi
+
+if [ -d "$HOME/.ghcup/bin" ] ; then
+    PATH="$HOME/.ghcup/bin:$PATH"
+fi
+
+if command -v gem &> /dev/null; then
+    USER_GEM_HOME=$(gem env user_gemhome)
+    if [ -d "$USER_GEM_HOME" ]; then
+        PATH="$PATH:$USER_GEM_HOME/bin"
+    fi
 fi
 
 export EDITOR='nvim'

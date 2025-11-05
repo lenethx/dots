@@ -50,18 +50,30 @@ import subprocess
 import random
 import os
 
+def is_process_running(process_name):
+    try:
+        subprocess.check_output(["pgrep", "-if", process_name])
+        return True
+    except subprocess.CalledProcessError:
+        return False
+
+
+
 mod = "mod4"
 imageEditor = "gimp"
 fileManager = "thunar"
-is_on_laptop = qtile.core.name == "wayland" 
+is_on_wayland = qtile.core.name == "wayland" 
+is_on_xfce = is_process_running("xfce")
 
-
-if is_on_laptop:
+if is_on_xfce:
+    terminal = "xfce4-terminal" #guess_terminal()
+    menu = "xfce4-popup-whiskermenu"
+elif is_on_wayland:
     terminal = "kitty --single-instance" #guess_terminal()
     menu = "wofi --show drun"
 else:
-    terminal = "xfce4-terminal" #guess_terminal()
-    menu = "xfce4-popup-whiskermenu"
+    terminal = "kitty --single-instance" #guess_terminal()
+    menu = "rofi -show drun"
 
 # thanks u/eXoRainbow
 sticky_windows = []
@@ -128,6 +140,7 @@ def auto_transparent_windows(window):
     if ( info['name'] in auto_transparent):
         transparent_windows.append(window)
         window.set_opacity(0.5)
+
 
 
 
@@ -220,12 +233,15 @@ keys = [
 ]
 
 
-
-if is_on_laptop:
+if not is_on_xfce:
     keys += [
-    Key([], "XF86AudioMute", lazy.spawn("pactl set-sink-mute @DEFAULT_SINK@ toggle"), desc="Mute audio"),
-    Key([], "XF86AudioRaiseVolume", lazy.spawn("pactl set-sink-volume @DEFAULT_SINK@ +1%"), desc="Increase Volume"),
-    Key([], "XF86AudioLowerVolume", lazy.spawn("pactl set-sink-volume @DEFAULT_SINK@ -1%"), desc="Decrease Volume"),
+        Key([], "XF86AudioMute", lazy.spawn("pactl set-sink-mute @DEFAULT_SINK@ toggle"), desc="Mute audio"),
+        Key([], "XF86AudioRaiseVolume", lazy.spawn("pactl set-sink-volume @DEFAULT_SINK@ +1%"), desc="Increase Volume"),
+        Key([], "XF86AudioLowerVolume", lazy.spawn("pactl set-sink-volume @DEFAULT_SINK@ -1%"), desc="Decrease Volume"),
+    ]
+
+if is_on_wayland:
+    keys += [
     Key([], "XF86MonBrightnessUp", lazy.spawn("brillo -A 1"), desc="Increase Brightness"),
     Key([], "XF86MonBrightnessDown", lazy.spawn("brillo -U 1"), desc="Decrease Brightness"),
     Key(["shift"], "XF86MonBrightnessUp", lazy.spawn("brillo -A 5"), desc="Increase Brightness"),
@@ -251,7 +267,7 @@ if is_on_laptop:
     Key([mod], "f", lazy.spawn("wl-kbptr -c ~/.config/wl-kbptr/config", shell=True), desc="Vimium click"),
 
 ]
-else:
+elif is_on_xfce:
     keys += [
     Key([mod], "c", lazy.spawn("xfce4-popup-clipman", shell=True), desc="Loads copied clipboard"),
 ]
@@ -317,7 +333,7 @@ extension_defaults = widget_defaults.copy()
 
 bars = dict()
 
-if is_on_laptop:
+if not is_on_xfce:
     bars["bottom"]=bar.Bar(
             [
                 widget.GenPollCommand(cmd="whoami"),
@@ -330,7 +346,7 @@ if is_on_laptop:
                     this_current_screen_border="#ff4dcf",
                                 ),
                 widget.Prompt(),
-                widget.CurrentLayoutIcon(scale=0.7), #not sure still if i prefer icon or not
+                widget.CurrentLayout(scale=0.7, mode="icon"), #not sure still if i prefer icon or not
                 widget.WindowName(),
                 widget.Chord(
                     chords_colors={
@@ -484,7 +500,7 @@ def autostart():
     #for item in qtile.windows():
     #    if "kitty-bg" in item["wm_class"]:
     #        
-    if is_on_laptop:
+    if is_on_wayland:
         qtile.spawn('udiskie')
         qtile.spawn('nm-applet')
         qtile.spawn('systemctl --user start plasma-polkit-agent')

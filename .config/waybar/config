@@ -5,7 +5,7 @@
     // #"width": 1280, // Waybar width
     "spacing": 4, // Gaps between modules (4px)
     // #Choose the order of the modules
-    "modules-left": [ "user", "hyprland/workspaces" ],
+    "modules-left": [ "user", "niri/workspaces" ],
     // #"modules-left": ["sway/workspaces", "sway/mode", "sway/scratchpad", "custom/media"],
     // #"modules-center": ["sway/window"],
     "modules-right": [ "tray",  "idle_inhibitor", "pulseaudio", "network", "cpu", "memory", "temperature", "backlight", "keyboard-state",  "battery", "battery#bat2", "clock"],
@@ -27,7 +27,7 @@
     // #     }
     // # },
 
-    "hyprland/workspaces": {
+    "niri/workspaces": {
       "format": "{icon}",
       "on-click": "activate",
       "format-icons": {
