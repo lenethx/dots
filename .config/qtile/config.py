@@ -417,11 +417,14 @@ else:
         # By default we handle these events delayed to already improve performance, however your system might still be struggling
         # This variable is set to None (no cap) by default, but you can set it to 60 to indicate that you limit it to 60 events per second
         # x11_drag_polling_rate = 60,
+if is_on_laptop:
+    bars["wallpaper"]="/home/leneth/Pictures/wallpapers/ruckenfigur_unsorted/1699525592129581.png"
+    bars["wallpaper_mode"]="fill"  #  "fill"
+else:
+    bars["wallpaper"]=random.choice(
+        [os.path.join(r, f) for r, _, files in os.walk("/home/leneth/Pictures/wallpapers") if "/." not in r for f in files if not f.startswith('.')])
 
-bars["wallpaper"]=random.choice(
-    [os.path.join(r, f) for r, _, files in os.walk("/home/leneth/Pictures/wallpapers") if "/." not in r for f in files if not f.startswith('.')])
-
-bars["wallpaper_mode"]="stretch"  #  "fill"
+    bars["wallpaper_mode"]="stretch"  #  "fill"
 screens = [
     Screen(
         **bars
