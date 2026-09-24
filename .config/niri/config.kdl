@@ -187,8 +187,11 @@ binds {
     XF86AudioLowerVolume allow-when-locked=true { spawn "pactl" "set-sink-volume" "@DEFAULT_SINK@" "-1%"; }
     XF86AudioMute        allow-when-locked=true { spawn "pactl" "set-sink-mute" "@DEFAULT_SINK@" "toggle"; }
     XF86AudioMicMute     allow-when-locked=true { spawn "wpctl" "set-mute" "@DEFAULT_AUDIO_SOURCE@" "toggle"; }
+
     XF86MonBrightnessUp  allow-when-locked=true { spawn "brillo" "-A" "1"; }
     XF86MonBrightnessDown  allow-when-locked=true { spawn "brillo" "-U" "1"; }
+    Shift+XF86MonBrightnessUp  allow-when-locked=true { spawn "brillo" "-A" "10"; }
+    Shift+XF86MonBrightnessDown  allow-when-locked=true { spawn "brillo" "-U" "10"; }
 
     Mod+W { close-window; }
 
@@ -303,6 +306,7 @@ binds {
     Mod+Shift+R { switch-preset-window-height; }
     Mod+Ctrl+R { reset-window-height; }
     Mod+Shift+A { maximize-column; }
+    //Mod+Shift+A { set-column-width "99.9%"; }
     Mod+A { fullscreen-window; }
 
     Mod+Ctrl+A { expand-column-to-available-width; }
